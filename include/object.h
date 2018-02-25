@@ -5,11 +5,12 @@
 #include <map>
 #include <vector>
 #include <value.h>
+#include <gc_cpp.h>
 
 namespace gc_performance
 {
   
-  class object 
+  class object : public gc_cleanup
   {
   private:
     // map between string and value
