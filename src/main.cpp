@@ -2,16 +2,17 @@
 #include <iostream>
 #include <value.h>
 #include <object.h>
-
+#include <array.h> 
 using namespace gc_performance;
 
 
 int main(int argc, char const *argv[]) {
-  value v;
+  array* v = new array();
   for(int i=0;i<100000;++i)
   {
     //  v = new object();
-     v = 10;
+    (*v)[i] = 10;
+    //  v = 10;
   }
   std::cout << "HelloWorld" << '\n';
   

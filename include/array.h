@@ -13,7 +13,9 @@ namespace gc_performance
     typedef std::vector<value> Array;
     Array _array;
   public:
-   array(Array arr);
+   array(Array arr = {});
+   
+   value& operator[](const int index);
   };
 }
 

@@ -32,8 +32,8 @@ namespace gc_performance
     // undefined
     value();
     // primitive
-    value(int);
-    value(std::string&);
+    value(const int);
+    value(const std::string&);
     value(const char*);
     // object
     value(object*);
@@ -41,11 +41,25 @@ namespace gc_performance
     // get object from external
     object* getObject() const {return _value._object;}
     int getInteger() const {return _value._int;}
+    std::string getString() const {return *(_value._str);}
+    TYPE getType() const { return type; }
+    
+    template<class T> bool is() const { return dynamic_cast<const T*>(_value._object); }
+    template<class T> T* as() const { return dynamic_cast<T*>(_value._object); }
     
     // operators
     bool operator==(const value &other) const;
+    
+    void operator=(const value& other);
+    void operator=(const int other);
+    void operator=(const std::string&);
+    void operator=(const char*);
+    void operator=(object*);
+    
+    value& operator[](const value v);
+    
+    static value undefined;
   };
-  
   
 }
 
