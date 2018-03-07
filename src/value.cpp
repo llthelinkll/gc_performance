@@ -112,5 +112,46 @@ value::operator=(const value& other)
   }
 }
 
+value::operator std::string() const
+{
+  return *(_value._str);
+}
+
+value::operator const char*() const
+{
+  return _value._str->c_str();
+}
+
+value::operator int() const
+{
+  return (_value._int);
+}
+
+value::operator double() const
+{
+  return (_value._int);
+}
+
+value::operator unsigned int() const
+{
+  return (_value._int);
+}
+
+value 
+gc_performance::operator "" _as(long double _int)
+{
+  return _int;
+}
+value 
+gc_performance::operator "" _as(unsigned long long int _int)
+{
+  return _int;
+}
+value 
+gc_performance::operator "" _as(const char* v,std::size_t)
+{
+  return v;
+}
+
 value
 value::undefined = 0;

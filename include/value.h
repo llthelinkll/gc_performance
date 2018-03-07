@@ -59,8 +59,20 @@ namespace gc_performance
     value& operator[](const value v);
     
     static value undefined;
+    
+    // cast operators
+    operator std::string() const;
+    operator const char*() const;
+    operator int() const;
+    operator double() const;
+    operator unsigned int() const;
+    
   };
   
+  // literal
+  value operator "" _as(long double);
+  value operator "" _as(unsigned long long int);
+  value operator "" _as(const char* v,std::size_t);
 }
 
 #include <unordered_map>
