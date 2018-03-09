@@ -2,6 +2,7 @@
 #include <iostream>
 #include <value.h>
 #include <object.h>
+#include <dictionary.h>
 #include <array.h> 
 #include <typeinfo>
 
@@ -53,6 +54,38 @@ int main(int argc, char const *argv[]) {
   //   //  v = 10;
   // }
   // std::cout << "HelloWorld" << '\n';
+  
+  // object
+  // object* obj = new object();
+  // for(int i=0;i<100000;++i)
+  // {
+  //   (*obj)[std::to_string(i)] = i;
+  // }
+  // for(auto itr : (*obj))
+  // {
+  //   std::cout << "value " << (int) itr << '\n';
+  // }
+  
+  // dictionary
+  dictionary* dict = new dictionary();
+  for(int i=0;i<10000000;++i)
+  {
+    (*dict)[i] = i;
+  }
+  std::cout << "size : " << dict->size() << '\n';
+  int counter = 0;
+  for(auto itr : (*dict))
+  {
+    ++counter;
+  }
+  std::cout << "counter : " << counter << '\n';
+  
+  // object* obj2 = new object({std::pair<std::string,value>("Hello",10),std::pair<std::string,value>("Hello2",20)});
+  // for(auto itr : (*obj2))
+  // {
+  //   std::cout << "obj2 " << (int) itr << '\n';
+  // }
+  
   
   /* code */
   return 0;

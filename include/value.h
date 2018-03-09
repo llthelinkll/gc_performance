@@ -9,6 +9,14 @@ namespace gc_performance
   
   class value {
   private:
+    // inside object
+    union{
+      object* _object;
+      int _int;
+      std::string* _str;
+    } _value;
+    
+  public:
     enum TYPE { 
       OBJECT
       ,INTEGER
@@ -18,15 +26,9 @@ namespace gc_performance
       ,UNDEFINED
      };
      
-    // inside object
-    union{
-      object* _object;
-      int _int;
-      std::string* _str;
-    } _value;
-    
     // inside type
     TYPE type;
+    
   public:
     
     // undefined
@@ -67,6 +69,43 @@ namespace gc_performance
     operator double() const;
     operator unsigned int() const;
     
+    /*
+      hasher for unordered_map Value
+    */
+    class hasher
+    {
+    public:
+      size_t operator() (value  v) const
+      {
+        switch (v.getType()) {
+          case INTEGER:
+            return std::hash<int>()(v.getInteger());
+          case STRING:
+            return std::hash<std::string>()(v.getString());
+          default:
+            return std::hash<object*>()(v.getObject());
+        }
+        return std::hash<object*>()(v.getObject());
+      }
+    };
+    
+    class EqualFn
+    {
+    public:
+      bool operator() (const value t1, const value t2) const
+      {
+        switch (t1.getType()) {
+          case INTEGER:
+            return t1.getInteger() == t2.getInteger();
+          case STRING:
+            return t1.getString() == t2.getString();
+          default:
+            return t1.getObject() == t2.getObject();
+        }
+        return t1.getObject() == t2.getObject();
+      }
+    };
+    
   };
   
   // literal
@@ -75,7 +114,6 @@ namespace gc_performance
   value operator "" _as(const char* v,std::size_t);
 }
 
-#include <unordered_map>
 
 namespace std {
 
@@ -84,7 +122,32 @@ namespace std {
   {
     std::size_t operator()(const gc_performance::value& v) const
     {
+      switch (v.getType()) {
+        case gc_performance::value::INTEGER:
+          return hash<int>()(v.getInteger());
+        case gc_performance::value::STRING:
+          return hash<std::string>()(v.getString());
+        default:
+          return hash<gc_performance::object*>()(v.getObject());
+      }
       return hash<gc_performance::object*>()(v.getObject());
+    }
+  };
+  
+  template <>
+  struct equal_to<gc_performance::value>
+  {
+    bool operator() (const gc_performance::value t1, const gc_performance::value t2) const
+    {
+      switch (t1.getType()) {
+        case gc_performance::value::INTEGER:
+          return t1.getInteger() == t2.getInteger();
+        case gc_performance::value::STRING:
+          return t1.getString() == t2.getString();
+        default:
+          return t1.getObject() == t2.getObject();
+      }
+      return t1.getObject() == t2.getObject();
     }
   };
 
