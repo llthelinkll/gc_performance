@@ -5,7 +5,8 @@ project (GCPerformance)
 
 include_directories(include)
 
-set(SOURCES src/object.cpp src/array.cpp src/dictionary.cpp src/value.cpp src/integer.cpp src/string.cpp)
+set(SOURCES src/object.cpp src/array.cpp src/dictionary.cpp src/value.cpp src/integer.cpp src/string.cpp src/vector.cpp)
+
 
 add_library(gc_performance SHARED ${SOURCES})
 
