@@ -1,5 +1,6 @@
 language: cpp
 script:
+  - apt-get install libgc-dev
   - mkdir build
   - cd build
   - cmake ..
