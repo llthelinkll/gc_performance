@@ -1,6 +1,7 @@
+before_install:
+  - sudo apt-get install libgc-dev
 language: cpp
 script:
-  - apt-get install libgc-dev
   - mkdir build
   - cd build
   - cmake ..
